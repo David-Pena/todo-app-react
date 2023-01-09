@@ -76,7 +76,7 @@ const Search = ({
             onChange={(evt) => {
               onQueryChange(evt.target.value);
             }}
-            className="pl-8 py-2 rounded-md focus:ring-indigo-500 focus:border-indigo-500 block w-full border-gray-300"
+            className="pl-8 py-2 rounded-md block w-full border-none"
             placeholder="Search"
           />
           <div className="absolute inset-y-0 right-0 flex items-center">
@@ -86,7 +86,7 @@ const Search = ({
                 onClick={() => {
                   setToggleSort(!toggleSort);
                 }}
-                className="justify-center px-4 py-2 bg-blue-400 border-blue-400 text-sm border-2 text-white flex items-center"
+                className="justify-center px-4 py-2 bg-blue-400 border-blue-400 hover:bg-blue-500 hover:border-blue-500 text-sm border-2 text-white flex items-center"
                 id="options-menu"
                 aria-haspopup="true"
                 aria-expanded="true"

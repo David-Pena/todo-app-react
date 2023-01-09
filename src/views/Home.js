@@ -1,22 +1,30 @@
 import { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { BiArrowBack } from "react-icons/bi";
+import { BiLogOut } from "react-icons/bi";
+import { getUser, removeUser } from "../store/user";
 import TaskList from "../components/TaskList";
 import WelcomeMessage from "../components/WelcomeMessage";
 import Search from "../components/Search";
 import AddTask from "../components/AddTask";
-import { getUser } from "../store";
+import MyToast from '../namespaces/Toast';
+
 
 const Home = () => {
     const navigate = useNavigate();
 
-    let [username, setUsername] = useState('Unknown');
+    const user = getUser();
+
     let [tasks, setTasks] = useState([]);
     let [query, setQuery] = useState("");
     let [sortBy, setSortBy] = useState("assigned");
     let [orderBy, setOrderBy] = useState("asc");
 
-    function goBack() {
+    const handleLogOut = () => {
+        removeUser();
+        MyToast.fire({
+            icon: 'success',
+            title: 'Sesión finalizada!'
+        })
         navigate("/");
     }
 
@@ -45,37 +53,41 @@ const Home = () => {
             });
     }, [])
 
-    const getUserData = useCallback(() => {
-        const user = getUser();
-        setUsername(user.username);
-    }, [])
-
     useEffect(() => {
         fetchData()
     }, [fetchData])
 
-    useEffect(() => {
-        getUserData()
-    }, [getUserData])
+    const handleAddTask = (newTask) => {
+        setTasks([...tasks, newTask]);
+    }
 
     const handleDeleteTask = (taskId) => {
-        console.log(taskId)
         const idx = tasks.findIndex(task => task.id === taskId)
         tasks.splice(idx, 1)
+        setTasks([...tasks])
+    }
+
+    const handleCompleteTask = (taskId) => {
+        const idx = tasks.findIndex(task => task.id === taskId)
+        tasks[idx].isDone = true;
         setTasks([...tasks])
     }
 
     return (
         <div className="h-screen w-full bg-slate-700">
             <div className="rounded-md px-16 py-5 backdrop-blur-md max-sm:px-8">
-                <BiArrowBack
-                    className="text-white mb-3 cursor-pointer text-xl"
-                    onClick={goBack}
-                />
-                <WelcomeMessage username={username} />
+                <div className="flex items-center mb-5">
+                <button 
+                    type="button"
+                    onClick={handleLogOut}
+                    className="justify-center rounded-md px-3 py-2 bg-blue-400 border-none hover:bg-blue-500 text-sm border-2 text-white flex items-center"                >
+                    <BiLogOut className="text-lg mr-2" /> Salir
+                </button>
+                </div>
+                <WelcomeMessage username={user.username || 'Unknown'} />
                 <AddTask 
                     lastId={tasks.reduce((max, item) => Number(item.id) > max ? Number(item.id) : max, 0)}
-                    onAddAppointment={myTask => setTasks([...tasks, myTask])}
+                    onAddAppointment={myTask => handleAddTask(myTask)}
                 />
                 <Search
                     query={query}
@@ -85,7 +97,11 @@ const Home = () => {
                     sortBy={sortBy}
                     onSortByChange={(mySort) => setSortBy(mySort)}
                 />
-                <TaskList tasks={filteredTasks} ontDeleteTask={taskId => handleDeleteTask(taskId)} />
+                <TaskList 
+                    tasks={filteredTasks}
+                    onUpdateTask={taskId => handleCompleteTask(taskId)}
+                    onDelTask={taskId => handleDeleteTask(taskId)} 
+                />
             </div>
         </div>
     );

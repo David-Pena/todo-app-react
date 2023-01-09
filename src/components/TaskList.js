@@ -1,6 +1,6 @@
 import TaskItem from "./TaskItem";
 
-const TaskList = ({ tasks, ontDeleteTask }) => {
+const TaskList = ({ tasks, onUpdateTask, onDelTask }) => {
   return (
     <>
       <ul className=" text-white">
@@ -8,7 +8,8 @@ const TaskList = ({ tasks, ontDeleteTask }) => {
           <TaskItem
             key={task.id}
             task={task}
-            onDeleteTask={myTask => ontDeleteTask(myTask)}
+            onCompleteTask={taskId => onUpdateTask(taskId)}
+            onDeleteTask={taskId => onDelTask(taskId)}
           />
         ))}
       </ul>

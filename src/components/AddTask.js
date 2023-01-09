@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { BiPlus } from 'react-icons/bi';
+import MyToast from '../namespaces/Toast';
 
 const AddTask = ({ lastId, onAddAppointment }) => {
   const clearData = {
@@ -11,6 +12,13 @@ const AddTask = ({ lastId, onAddAppointment }) => {
   let [formData, setFormData] = useState(clearData);
 
   const handleSubmit = () => {
+    if (!(formData.assigned && formData.description)) {
+      return MyToast.fire({
+        icon: 'error',
+        title: 'Missing fields!'
+      })
+    }
+    
     const task = {
       id: lastId++,
       assigned: formData.assigned,
@@ -27,7 +35,7 @@ const AddTask = ({ lastId, onAddAppointment }) => {
     <div className="mt-5">
       <button
         onClick={() => { setToggleForm(!toggleForm) }}
-        className={`bg-blue-400 text-white px-2 py-3 w-full text-left ${toggleForm ? 'rounded-t-md' : 'rounded-md'}`}
+        className={`bg-blue-400 hover:bg-blue-500 text-white px-2 py-3 w-full text-left ${toggleForm ? 'rounded-t-md' : 'rounded-md'}`}
       >
         <div>
           <BiPlus className="inline-block align-text-top text-xl mr-1" />Add Task
@@ -64,7 +72,7 @@ const AddTask = ({ lastId, onAddAppointment }) => {
               <button
                 type="submit"
                 onClick={handleSubmit}
-                className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
+                className="ml-3 inline-flex justify-center py-2 px-4 border-none shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none"
               >
                 <div className="flex items-center">
                   <BiPlus className="text-lg mr-1" />

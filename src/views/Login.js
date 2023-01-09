@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { setUser } from '../store';
+import { setUser } from '../store/user';
+import MyToast from '../namespaces/Toast';
 
 const Login = () => {
 
@@ -14,8 +15,13 @@ const Login = () => {
   let [formData, setFormData] = useState(clearData);
 
   function handleSubmit(evt) {
+    evt.preventDefault();
+
     if (!(formData.username && formData.password)) {
-      return;
+      return MyToast.fire({
+        icon: 'error',
+        title: 'Missing fields!'
+      })
     }
 
     const user = {
@@ -26,9 +32,12 @@ const Login = () => {
     setUser(user);
     setFormData(clearData);
 
-    navigate('/home')
+    MyToast.fire({
+      icon: 'success',
+      title: `${formData.username} ha iniciado sesión exitosamente!`
+    })
 
-    evt.preventDefault();
+    navigate('/home')
   }
 
   return (
