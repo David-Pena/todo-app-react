@@ -1,10 +1,31 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { setUser } from '../store';
 
 const Login = () => {
 
   const navigate = useNavigate();
 
+  const clearData = {
+    username: '',
+    password: ''
+  };
+
+  let [formData, setFormData] = useState(clearData);
+
   function handleSubmit(evt) {
+    if (!(formData.username && formData.password)) {
+      return;
+    }
+
+    const user = {
+      username: formData.username,
+      password: formData.password
+    };
+
+    setUser(user);
+    setFormData(clearData);
+
     navigate('/home')
 
     evt.preventDefault();
@@ -24,8 +45,10 @@ const Login = () => {
               <input
                 className="rounded-sm border-none px-6 py-2 text-center shadow-lg outline-none"
                 type="text"
-                name="name"
-                placeholder="email@gmail.com"
+                name="username"
+                onChange={(evt) => { setFormData({ ...formData, username: evt.target.value }) }}
+                value={formData.username}
+                placeholder="Type here..."
               />
             </div>
 
@@ -33,7 +56,9 @@ const Login = () => {
               <input
                 className="rounded-sm border-none px-6 py-2 text-center shadow-lg outline-none"
                 type="Password"
-                name="name"
+                name="password"
+                onChange={(evt) => { setFormData({ ...formData, password: evt.target.value }) }}
+                value={formData.password}
                 placeholder="*********"
               />
             </div>

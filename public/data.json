@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "assigned": "David",
+    "description": "Create dynamic dropdown",
+    "isDone": false
+  },
+  {
+    "id": 2,
+    "assigned": "David",
+    "description": "Deploy GMG and Minimed",
+    "isDone": false
+  },
+  {
+    "id": 3,
+    "assigned": "Sebastian",
+    "description": "Optimize GH endpoints in FE Universal",
+    "isDone": true
+  },
+  {
+    "id": 4,
+    "assigned": "Luis",
+    "description": "Design database for Bloomie and TikTime",
+    "isDone": false
+  }
+]
