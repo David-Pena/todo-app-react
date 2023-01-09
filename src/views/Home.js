@@ -1,32 +1,18 @@
 import { useState, useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { BiLogOut } from "react-icons/bi";
-import { getUser, removeUser } from "../store/user";
+import { getUser } from "../store/user";
 import TaskList from "../components/TaskList";
 import WelcomeMessage from "../components/WelcomeMessage";
 import Search from "../components/Search";
 import AddTask from "../components/AddTask";
-import MyToast from '../namespaces/Toast';
-
+import Navbar from '../components/shared/Navbar';
 
 const Home = () => {
-    const navigate = useNavigate();
-
     const user = getUser();
 
     let [tasks, setTasks] = useState([]);
     let [query, setQuery] = useState("");
     let [sortBy, setSortBy] = useState("assigned");
     let [orderBy, setOrderBy] = useState("asc");
-
-    const handleLogOut = () => {
-        removeUser();
-        MyToast.fire({
-            icon: 'success',
-            title: 'Sesión finalizada!'
-        })
-        navigate("/");
-    }
 
     const filteredTasks = tasks
         .filter((task) => {
@@ -76,14 +62,7 @@ const Home = () => {
     return (
         <div className="h-screen w-full bg-slate-700">
             <div className="rounded-md px-16 py-5 backdrop-blur-md max-sm:px-8">
-                <div className="flex items-center mb-5">
-                <button 
-                    type="button"
-                    onClick={handleLogOut}
-                    className="justify-center rounded-md px-3 py-2 bg-blue-400 border-none hover:bg-blue-500 text-sm border-2 text-white flex items-center"                >
-                    <BiLogOut className="text-lg mr-2" /> Salir
-                </button>
-                </div>
+                <Navbar parent={'home'} />
                 <WelcomeMessage username={user.username || 'Unknown'} />
                 <AddTask 
                     lastId={tasks.reduce((max, item) => Number(item.id) > max ? Number(item.id) : max, 0)}

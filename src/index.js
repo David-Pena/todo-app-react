@@ -7,6 +7,7 @@ import {
 import './index.css'
 import Login from './views/Login';
 import Home from './views/Home';
+import Profile from './components/Profile';
 
 const router = createBrowserRouter([
   {
@@ -15,7 +16,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/home',
-    element: <Home />
+    element: <Home />,
+  },
+  {
+    path: '/my-profile',
+    element: <Profile />
   }
 ])
 
