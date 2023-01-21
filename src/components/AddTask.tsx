@@ -1,9 +1,11 @@
+import React from "react";
 import { useState } from 'react';
 import { BiPlus } from 'react-icons/bi';
+import { ITask } from '../interfaces/task';
 import MyToast from '../namespaces/Toast';
 
 const AddTask = ({ lastId, onAddAppointment }) => {
-  const clearData = {
+  const clearData: ITask = {
     assigned: '',
     description: '',
   }
@@ -59,7 +61,7 @@ const AddTask = ({ lastId, onAddAppointment }) => {
             </div>
             <div className="mt-1 sm:mt-5">
               <label htmlFor="description" className="block text-sm font-medium">Description</label>
-              <textarea type="text" name="description" id="description"
+              <textarea name="description" id="description"
                 onChange={(evt) => { setFormData({ ...formData, description: evt.target.value }) }}
                 value={formData.description}
                 placeholder="Describe the task here..."

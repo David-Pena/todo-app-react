@@ -1,20 +1,22 @@
+import React from "react";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { setUser } from '../store/user';
 import MyToast from '../namespaces/Toast';
+import { IUser } from "../interfaces/user";
 
 const Login = () => {
 
   const navigate = useNavigate();
 
-  const clearData = {
+  const clearData: IUser = {
     username: '',
     password: ''
   };
 
   let [formData, setFormData] = useState(clearData);
 
-  function handleSubmit(evt) {
+  function handleSubmit(evt: any) {
     evt.preventDefault();
 
     if (!(formData.username && formData.password)) {
@@ -24,7 +26,7 @@ const Login = () => {
       })
     }
 
-    const user = {
+    const user: IUser = {
       username: formData.username,
       password: formData.password
     };

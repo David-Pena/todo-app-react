@@ -1,5 +1,7 @@
-const WelcomeMessage = ({ username }) => {
+import React from "react";
+import { DTOUsername } from "../interfaces/user";
 
+const WelcomeMessage = ({ username }: DTOUsername) => {
   return (
     <>
       <div className="bg-gray-800 rounded-md">

@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useCallback, useEffect } from "react";
 import { getUser } from "../store/user";
 import TaskList from "../components/TaskList";
@@ -5,11 +6,13 @@ import WelcomeMessage from "../components/WelcomeMessage";
 import Search from "../components/Search";
 import AddTask from "../components/AddTask";
 import Navbar from '../components/shared/Navbar';
+import { DTOTasks, ITask } from "../interfaces/task";
+import { IUser } from "../interfaces/user";
 
 const Home = () => {
-    const user = getUser();
+    const user: IUser = getUser();
 
-    let [tasks, setTasks] = useState([]);
+    let [tasks, setTasks] = useState<DTOTasks>([]);
     let [query, setQuery] = useState("");
     let [sortBy, setSortBy] = useState("assigned");
     let [orderBy, setOrderBy] = useState("asc");
@@ -43,17 +46,17 @@ const Home = () => {
         fetchData()
     }, [fetchData])
 
-    const handleAddTask = (newTask) => {
+    const handleAddTask = (newTask: ITask) => {
         setTasks([...tasks, newTask]);
     }
 
-    const handleDeleteTask = (taskId) => {
+    const handleDeleteTask = (taskId: number) => {
         const idx = tasks.findIndex(task => task.id === taskId)
         tasks.splice(idx, 1)
         setTasks([...tasks])
     }
 
-    const handleCompleteTask = (taskId) => {
+    const handleCompleteTask = (taskId: number) => {
         const idx = tasks.findIndex(task => task.id === taskId)
         tasks[idx].isDone = true;
         setTasks([...tasks])
@@ -66,20 +69,20 @@ const Home = () => {
                 <WelcomeMessage username={user.username || 'Unknown'} />
                 <AddTask 
                     lastId={tasks.reduce((max, item) => Number(item.id) > max ? Number(item.id) : max, 0)}
-                    onAddAppointment={myTask => handleAddTask(myTask)}
+                    onAddAppointment={(myTask: ITask) => handleAddTask(myTask)}
                 />
                 <Search
                     query={query}
-                    onQueryChange={(myQuery) => setQuery(myQuery)}
+                    onQueryChange={(myQuery: string) => setQuery(myQuery)}
                     orderBy={orderBy}
-                    onOrderByChange={(myOrder) => setOrderBy(myOrder)}
+                    onOrderByChange={(myOrder: string) => setOrderBy(myOrder)}
                     sortBy={sortBy}
-                    onSortByChange={(mySort) => setSortBy(mySort)}
+                    onSortByChange={(mySort: string) => setSortBy(mySort)}
                 />
                 <TaskList 
                     tasks={filteredTasks}
-                    onUpdateTask={taskId => handleCompleteTask(taskId)}
-                    onDelTask={taskId => handleDeleteTask(taskId)} 
+                    onUpdateTask={(taskId: number) => handleCompleteTask(taskId)}
+                    onDelTask={(taskId: number) => handleDeleteTask(taskId)} 
                 />
             </div>
         </div>

@@ -1,3 +1,4 @@
+import React from "react";
 import { BiCheck, BiTrash } from 'react-icons/bi';
 
 const TaskItem = ({ task, onCompleteTask, onDeleteTask }) => {

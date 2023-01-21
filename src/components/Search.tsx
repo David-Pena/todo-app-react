@@ -1,5 +1,7 @@
+import React from "react";
 import { useState } from "react";
 import { BiCheck, BiSearch, BiCaretDown } from "react-icons/bi";
+import { IFilterOptions } from "../interfaces/search";
 
 const DropDown = ({
   toggle,
@@ -7,7 +9,7 @@ const DropDown = ({
   onSortByChange,
   orderBy,
   onOrderByChange,
-}) => {
+}: IFilterOptions) => {
   if (!toggle) {
     return null;
   }
@@ -21,7 +23,7 @@ const DropDown = ({
         aria-labelledby="options-menu"
       >
         <div
-          onClick={onSortByChange("assigned")}
+          onClick={() => onSortByChange("assigned")}
           className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex justify-between cursor-pointer"
           role="menuitem"
         >

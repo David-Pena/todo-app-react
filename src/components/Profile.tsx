@@ -1,14 +1,16 @@
+import React from "react";
+import { IUser } from "../interfaces/user";
 import { getUser } from '../store/user';
 import Navbar from './shared/Navbar';
 
 const Profile = () => {
 
-  const user = getUser();
+  const user: IUser = getUser();
 
   return (
     <div className="h-screen w-full bg-slate-700">
       <div className="rounded-md px-16 py-5 backdrop-blur-md max-sm:px-8">
-      <Navbar />
+      <Navbar parent='profile' />
         <div className="bg-gray-800 rounded-md text-white">
           <div className="items-center justify-center rounded-xl px-16 py-10 shadow-lg backdrop-blur-md max-sm:px-8">
             <div className="w-fit mx-auto">
